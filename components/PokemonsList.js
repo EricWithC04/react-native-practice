@@ -1,10 +1,56 @@
 import { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native'
 
-const pokemonName = ({ item, index }) => {
+const styles = StyleSheet.create({
+    containerList: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    containerItem: {
+        backgroundColor: '#f2f2f2',
+        margin: 3,
+        padding: 10,
+        borderRadius: 10
+    },
+    pokeItem: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        margin: 2
+    },
+    pressedContainer: {
+        backgroundColor: '#333',
+        margin: 3,
+        padding: 10,
+        borderRadius: 10
+    },
+    pressedItem: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: 'bold',
+        margin: 2
+    }
+})
+
+const pokemonName = ({ item, pokemonsList, setPokemonsList }) => {
+
+    const handlePress = (item) => {
+        const newList = pokemonsList.map((p) => {
+            if (p.index === item.index) {
+                return { ...p, pressed: !p.pressed }
+            }
+
+            return p
+        })
+        setPokemonsList(newList)
+    }
+
     return (
-        <View>
-            <Text>{index + 1} - {item.name}</Text>
+        <View style={item.pressed ? styles.pressedContainer : styles.containerItem}>
+            <Pressable onPress={() => handlePress(item)}>
+                <Text style={item.pressed ? styles.pressedItem : styles.pokeItem}>{item.index + 1} - {item.name}</Text>
+            </Pressable>
         </View>
     )
 }
@@ -17,7 +63,11 @@ const PokemonsList = () => {
         const pokemonsApi = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=151")
         const data = await pokemonsApi.json()
 
-        setPokemonsList(data.results)
+        formatedData = data.results.map((p, i) => {
+            return { index: i, name: p.name, pressed: false }
+        })
+
+        setPokemonsList(formatedData)
     }
 
     useEffect(() => {
@@ -25,11 +75,12 @@ const PokemonsList = () => {
     }, [])
 
   return (
-        <View>
+        <View style={styles.containerList}>
             <Text>PokemonsList</Text>
             <FlatList
+                style={styles.pokeList}
                 data={pokemonsList}
-                renderItem={({ item, index }) => pokemonName({ item, index })}
+                renderItem={({ item }) => pokemonName({ item, pokemonsList, setPokemonsList })}
             />
         </View>
     )
