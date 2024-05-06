@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, Linking, TouchableOpacity, Button, Pressable } from 'react-native';
+import PokemonsList from './components/PokemonsList';
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
       <Drawer.Navigator initialRouteName='Home'>
         <Drawer.Screen name="Home" component={AppContent} />
         <Drawer.Screen name="About" component={About} />
+        <Drawer.Screen name="Pokemons" component={PokemonsList} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
