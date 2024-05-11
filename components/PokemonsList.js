@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native'
+import { s } from 'react-native-size-matters'
 
 const styles = StyleSheet.create({
     containerList: {
         flex: 1,
+        width: '100%',
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center'
     },
     containerItem: {
         backgroundColor: '#f2f2f2',
+        width: s(220),
         margin: 3,
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        flex: 1,
+        alignItems: 'center'
     },
     pokeItem: {
         fontSize: 20,
@@ -23,7 +28,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         margin: 3,
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        flex: 1,
+        alignItems: 'center'
     },
     pressedItem: {
         color: 'white',
@@ -74,7 +81,7 @@ const PokemonsList = () => {
         getPokemonsApi()
     }, [])
 
-  return (
+    return (
         <View style={styles.containerList}>
             <Text>PokemonsList</Text>
             <FlatList
